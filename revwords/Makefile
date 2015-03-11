@@ -1,5 +1,5 @@
 CC=gcc
-CFLAGS=-Wall -fPIC -I.
+CFLAGS=-Wall -std=c99 -I    .
 
 all: revwords
 
@@ -7,4 +7,4 @@ clean:
 	rm -f revwords
 
 revwords: revwords.c
-	$(CC) -o $@ -c $(CFLAGS) $<
+	$(CC) -o $@ $(CFLAGS) $<

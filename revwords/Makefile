@@ -1,10 +1,3 @@
-CC=gcc
-CFLAGS=-Wall -std=c99 -I    .
-
-all: revwords
-
-clean:
-	rm -f revwords
-
-revwords: revwords.c
-	$(CC) -o $@ $(CFLAGS) $<
+all:
+	LD_LIBRARY_PATH="../lib"
+	gcc revwords.c -L../lib/ -Wl,-rpath=../lib -lhelpers -std=c99 -o revwords

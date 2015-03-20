@@ -1,11 +1,11 @@
 CC=gcc
 CFLAGS=-L../lib/ -lhelpers -Wl,-rpath=../lib -std=c99
 
-all: revwords
+all: lenwords
 	LD_LIBRARY_PATH="../lib"
 
 clean:
-	rm -f revwords
+	rm -f lenwords
 
-revwords: revwords.c
+lenwords: lenwords.c
 	$(CC) $< $(CFLAGS) -o $@

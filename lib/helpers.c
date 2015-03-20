@@ -1,4 +1,3 @@
-
 #include "helpers.h"
 
 ssize_t read_until(int fd, void *buf, size_t count, char delimiter)
@@ -38,7 +37,27 @@ ssize_t read_until(int fd, void *buf, size_t count, char delimiter)
 
 ssize_t read_(int fd, void *buf, size_t count)
 {
-    return read_until(fd, buf, count, -1);
+    size_t read_cnt = 0;
+    size_t read_int_cnt = 0;
+    if (count == 0)
+    {
+        read(fd, buf, 0);
+    }
+
+    do
+    {
+        read_int_cnt = (size_t) read(fd, buf + read_cnt, count);
+
+        if (read_int_cnt == -1)
+        {
+            return  -1;
+        }
+
+        read_cnt += read_int_cnt;
+        count -= read_int_cnt;
+    } while (count > 0 && read_int_cnt > 0);
+
+    return read_cnt;
 }
 
 ssize_t write_(int fd, const void *buf, size_t count)

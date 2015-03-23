@@ -86,5 +86,9 @@ ssize_t write_(int fd, const void *buf, size_t count)
     return written_cnt;
 }
 
+int spawn(const char * file, char * const argv []) {
+    
+}
+
 
 

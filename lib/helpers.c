@@ -1,3 +1,4 @@
+#include <sys/wait.h>
 #include "helpers.h"
 
 ssize_t read_until(int fd, void *buf, size_t count, char delimiter)
@@ -87,7 +88,18 @@ ssize_t write_(int fd, const void *buf, size_t count)
 }
 
 int spawn(const char * file, char * const argv []) {
-    
+    pid_t pid = fork();
+    if (!pid) {
+        execvp(file, argv);
+    }
+
+    int ret_code;
+
+    if (waitpid(pid, &ret_code, 0) < 0) {
+        return  -1;
+    }
+
+    return ret_code;
 }
 
 

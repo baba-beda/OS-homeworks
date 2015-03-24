@@ -2,7 +2,7 @@
 #include <string.h>
 #include <errno.h>
 #include <stdlib.h>
-#include "../lib/helpers.h"
+#include <helpers.h>
 
 
 void error_revwords(const char* error_str)

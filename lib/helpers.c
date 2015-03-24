@@ -1,4 +1,6 @@
 #include <sys/wait.h>
+#include <sys/types.h>
+#include <unistd.h>
 #include "helpers.h"
 
 ssize_t read_until(int fd, void *buf, size_t count, char delimiter)

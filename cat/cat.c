@@ -5,7 +5,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <errno.h>
-#include "../lib/helpers.h"
+#include <helpers.h>
 
 
 void error_cat(const char *error_str)

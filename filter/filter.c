@@ -4,6 +4,7 @@
 #include <string.h>
 #include <errno.h>
 #include <helpers.h>
+#include <unistd.h>
 
 
 void error_filter(const char* error_str) {
@@ -16,9 +17,9 @@ void write_char(char c)
     write_(STDOUT_FILENO, &c, 1);
 }
 
-void execute(char* file_path, char* argv[], char word[4096], int word_pos) {
+void execute(char* file_path, char* argv[], char word[4097], int word_pos) {
     int res = spawn(file_path, argv);
-    if (res != -1) {
+    if (res == 0) {
         write_(STDOUT_FILENO, word, word_pos);
         write_char('\n');
     }
@@ -32,7 +33,7 @@ int main(int argc, char* argv[]) {
     }
 
     char buf[4096];
-    char word[4096];
+    char word[4097];
 
     int word_pos = 0;
     size_t read_cnt;
@@ -48,12 +49,13 @@ int main(int argc, char* argv[]) {
         for (int i = 0; i < read_cnt; i++) {
             if (buf[i] == '\n') {
                 if (word_pos != 0) {
-                    word_pos = 0;
+                    word[word_pos] = 0;
                     execute(file_path, argv, word, word_pos);
+                    word_pos = 0;
                 }
-                else {
-                    word[word_pos++] = buf[i];
-                }
+
+            } else {
+                word[word_pos++] = buf[i];
             }
         }
 

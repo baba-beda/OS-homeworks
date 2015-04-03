@@ -1,11 +1,20 @@
-CC=gcc
-CFLAGS=-L../lib/ -lhelpers -std=c99 -Wl,-rpath=../lib -I../lib/
+CC = gcc
+CC_OPTS = -Wall -O2 -std=c99 -I../lib
+LD_OPTS = -L../lib -lbufio
 
-all: bufcat
-	LD_LIBRARY_PATH="../lib"
+PROGRAM = bufcat
+
+all: $(PROGRAM)
 
 clean:
-	rm -f bufcat
+	rm -f $(PROGRAM)
+	rm -f $(PROGRAM).o
 
-bufcat: bufcat.c
-	$(CC) $< $(CFLAGS) -o $@
+$(PROGRAM): $(PROGRAM).o ../lib/libbufio.so
+	$(CC) -o $@ $< $(LD_OPTS)
+
+../lib/libbufio.so:
+	$(MAKE) -C $(dir $@) $(notdir $@)
+
+$(PROGRAM).o: $(PROGRAM).c
+	$(CC) -o $@ -c $< $(CC_OPTS)

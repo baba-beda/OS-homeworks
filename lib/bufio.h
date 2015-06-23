@@ -18,5 +18,6 @@ size_t buf_capacity(struct buf_t * buf);
 size_t buf_size(struct buf_t * buf);
 ssize_t buf_fill(fd_t fd, struct buf_t * buf, size_t required);
 ssize_t buf_flush(fd_t fd, struct buf_t * buf, size_t required);
+char *buf_get_data(struct buf_t *buf);
 
 #endif

@@ -7,8 +7,8 @@ int main() {
     ssize_t read_cnt, written_cnt;
 
     do {
-        read_cnt = buf_fill(STDIN_FILENO, buf, buf_capacity(buf));
-        written_cnt = buf_flush(STDOUT_FILENO, buf, buf_size(buf));
+        read_cnt = buf_fill(STDIN_FILENO, buf, 1);
+        written_cnt = buf_flush(STDOUT_FILENO, buf, 1);
         if (read_cnt == -1 || written_cnt == -1) {
             ret_code = 1;
             break;

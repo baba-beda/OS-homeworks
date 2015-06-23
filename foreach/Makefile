@@ -1,5 +1,5 @@
 CC=gcc
-CFLAGS=-L../lib/ -lhelpers -Wl,-rpath=../lib -I../lib/ -std=c99 -g
+CFLAGS=-L../lib/ -lhelpers -lbufio -Wl,-rpath=../lib -I../lib/ -std=c99 -g
 
 all: foreach
 	LD_LIBRARY_PATH="../lib"

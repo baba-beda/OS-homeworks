@@ -49,6 +49,7 @@ int main(int argc, char ** argv) {
     args[counter] = malloc(4096);
     int arg_len = 0;
     do {
+        buf->size = 0;
         read_cnt = buf_fill(STDIN_FILENO, buf, 1);
 
 
@@ -69,8 +70,9 @@ int main(int argc, char ** argv) {
                     args[counter][arg_len++] = '\0';
                     execute(args[0], argv, argc, args, counter + 1);
                     free(args);
+
                     arg_len = 0;
-                    args = malloc(sizeof(char *) * 4096);   
+                    args = malloc(sizeof(char *) * 4096);
                     counter = 0;
                     args[counter] = malloc(4096);
                 }

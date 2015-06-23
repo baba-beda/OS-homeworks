@@ -1,6 +1,10 @@
-#include <sys/wait.h>
-#include <sys/types.h>
+#include <stdlib.h>
+#include <string.h>
 #include <unistd.h>
+#include <fcntl.h>
+#include <sys/types.h>
+#include <sys/wait.h>
+#include <signal.h>
 #include "helpers.h"
 
 ssize_t read_until(int fd, void *buf, size_t count, char delimiter)
@@ -91,17 +95,20 @@ ssize_t write_(int fd, const void *buf, size_t count)
 
 int spawn(const char * file, char * const argv []) {
     pid_t pid = fork();
-    if (!pid) {
+    if (pid == -1) {
+        return -1;
+    } else if (pid == 0) {
         execvp(file, argv);
+        return -1;
+    } else {
+        int status;
+        waitpid(pid, &status, 0);
+        if (WIFEXITED(status)) {
+            return WEXITSTATUS(status);
+        } else {
+            return -1;
+        }
     }
-
-    int ret_code;
-
-    if (waitpid(pid, &ret_code, 0) < 0) {
-        return  -1;
-    }
-
-    return ret_code;
 }
 
 

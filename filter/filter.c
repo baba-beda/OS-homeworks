@@ -14,13 +14,19 @@ void error_filter(const char* error_str) {
 
 void write_char(char c)
 {
-    write_(STDOUT_FILENO, &c, 1);
+    ssize_t write_cnt = write_(STDOUT_FILENO, &c, 1);
+    if (write_cnt == -1) {
+        error_filter(strerror(errno));
+    }
 }
 
 void execute(char* file_path, char* argv[], char word[4097], int word_pos) {
     int res = spawn(file_path, argv);
     if (res == 0) {
-        write_(STDOUT_FILENO, word, word_pos);
+        ssize_t write_cnt = write_(STDOUT_FILENO, word, word_pos);
+        if (write_cnt == -1) {
+            error_filter(strerror(errno));
+        }
         write_char('\n');
     }
 }

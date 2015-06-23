@@ -1,4 +1,4 @@
-all: lib/libhelpers.so lib/libbufio.so cat/cat revwords/revwords filter/filter bufcat/bufcat
+all: lib/libhelpers.so lib/libbufio.so cat/cat revwords/revwords filter/filter bufcat/bufcat foreach/foreach
 
 clean:
 	rm -f lib/helpers.o
@@ -10,9 +10,10 @@ clean:
 	rm -f bufcat/bufcat.o
 	rm -f lib/bufio.o
 	rm -f lib/libbufio.so
+	rm -f foreach/foreach
 
 
 
-lib/libhelpers.so lib/libbufio.so cat/cat revwords/revwords filter/filter bufcat/bufcat:
+lib/libhelpers.so lib/libbufio.so cat/cat revwords/revwords filter/filter bufcat/bufcat foreach/foreach:
 	$(MAKE) -C $(dir $@) $(notdir $@)
 

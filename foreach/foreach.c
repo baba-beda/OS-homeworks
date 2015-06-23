@@ -27,6 +27,7 @@ void execute(char* file_path, char* argv[]) {
         if (write_cnt == -1) {
             error_foreach(strerror(errno));
         }
+        write_char(' ');
         write_cnt = write_(STDOUT_FILENO, argv[1], strlen(argv[1]));
         if (write_cnt == -1) {
             error_foreach(strerror(errno));
@@ -37,21 +38,17 @@ void execute(char* file_path, char* argv[]) {
 
 int main(int argc, char ** argv) {
     char command[4096];
-    size_t read_cnt;
-    size_t read_all = 0;
-
-    do {
-        read_cnt = (size_t) read(STDIN_FILENO, command + read_all, sizeof(command));
-        if (read_cnt == -1) {
-            error_foreach(strerror(errno));
-        }
-        read_all += read_cnt;
-    } while (read_cnt > 0);
+    ssize_t read_cnt = read_(STDIN_FILENO, command, sizeof(command));
+    if (read_cnt == -1) {
+        error_foreach(strerror(errno));
+    }
+    command[read_cnt - 1] = '\0';
 
     for (int i = 1; i < argc; i++) {
-        char * args[2];
+        char * args[3];
         args[0] = command;
         args[1] = argv[i];
+        args[2] = NULL;
         execute(command, args);
     }
 }

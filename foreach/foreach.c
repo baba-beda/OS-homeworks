@@ -45,7 +45,8 @@ int main(int argc, char ** argv) {
     command[read_cnt - 1] = '\0';
 
     for (int i = 1; i < argc; i++) {
-        char * args[3];
+        char ** args;
+        args = malloc(sizeof(char *) * 3);
         args[0] = command;
         args[1] = argv[i];
         args[2] = NULL;

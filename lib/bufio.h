@@ -8,9 +8,9 @@
 typedef int fd_t;
 
 struct buf_t {
-    void * data;
     size_t capacity;
     size_t size;
+    void * data;
 };
 
 struct buf_t * buf_new(size_t capacity);

@@ -41,7 +41,7 @@ int main(int argc, char ** argv) {
     size_t read_all = 0;
 
     do {
-        read_cnt = (size_t) read(STDIN_FILENO, command, sizeof(command));
+        read_cnt = (size_t) read(STDIN_FILENO, command + read_all, sizeof(command));
         if (read_cnt == -1) {
             error_foreach(strerror(errno));
         }

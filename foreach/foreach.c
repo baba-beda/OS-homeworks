@@ -37,15 +37,16 @@ void execute(char* file_path, char* argv[]) {
 }
 
 int main(int argc, char ** argv) {
-    char command[4096];
+    char * command;
+    command = malloc(4096);
     ssize_t read_cnt;
 
     char ** args = malloc(sizeof(char *) * 4096);
     int counter = 0;
-    args[counter] = malloc(sizeof(char) * 4096);
+    args[counter] = malloc(4096);
     int arg_len = 0;
     do {
-        read_cnt = read_until(STDIN_FILENO, command, sizeof(command), ' ');
+        read_cnt = read_(STDIN_FILENO, command, sizeof(command));
 
         if (read_cnt == -1) {
             error_foreach(strerror(errno));
@@ -54,17 +55,21 @@ int main(int argc, char ** argv) {
         for (int i = 0; i < read_cnt; i++) {
             if (command[i] == ' ') {
                 counter++;
-                args[counter] = malloc(sizeof(char) * 4096);
+                args[counter] = malloc(4096);
                 arg_len = 0;
             } else {
                 args[counter][arg_len++] = command[i];
             }
         }
+        free(command);
+        command = malloc(4096);
     } while (read_cnt > 0);
+
 
 
     for (int i = 1; i < argc; i++) {
         args[counter] = argv[i];
+        args[counter + 1] = NULL;
         execute(args[0], args);
     }
 }
